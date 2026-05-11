@@ -7,7 +7,7 @@ const isTest = process.env.NODE_ENV === 'test';
 async function main() {
   await mongoose.connect(process.env.DB_URL);
 }
-
+module.exports = { mongoose };
 // let sequelize;
 // if (isTest) {
 //   // Fast, zero-setup DB for tests

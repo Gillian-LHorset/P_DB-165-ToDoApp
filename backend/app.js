@@ -52,7 +52,7 @@ async function initApp(options = {}) {
 
   const theApp = createApp();
 
-  if (db.connection.readyState !== 1) {
+  if (db.connection.readyStat !== 1) {
     await db.connect(process.env.DB_URL);
   }
 
