@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const cleanUser = (user) => {
   // eslint-disable-next-line no-unused-vars
   const userObj = user.toObject();
-  const { password, ...cleanedUser } = user.get({ plain: true });
+  const { password, __v, ...cleanedUser } = userObj;
   return cleanedUser;
 };
 
@@ -21,8 +21,10 @@ const UserController = {
       return res.status(201).json({ user: cleanUser(newUser) });
     } catch (error) {
       console.error('ADD USER: ', error);
-      if (error && error.name === 'SequelizeUniqueConstraintError') {
-        return res.status(409).json({ message: 'Un compte avec cet email existe déjà !' });
+      if (error && error.code === 11000) {
+        return res.status(409).json({
+          message: 'Un compte avec cet email existe déjà !'
+        });
       }
       return res.status(500).json({ message: "Erreur lors de l'inscription !" });
     }
