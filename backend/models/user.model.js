@@ -17,7 +17,9 @@ module.exports = (mongoose) => {
       location: String
     },
     {
-      timestamps: true
+      timestamps: true,
+      toJSON: { virtuals: true },
+      toObject: { virtuals: true }
     }
   );
 

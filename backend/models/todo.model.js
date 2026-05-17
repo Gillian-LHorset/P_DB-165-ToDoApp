@@ -23,7 +23,9 @@ module.exports = (mongoose) => {
       }
     },
     {
-      timestamps: true
+      timestamps: true,
+      toJSON: { virtuals: true },
+      toObject: { virtuals: true }
     }
   );
 

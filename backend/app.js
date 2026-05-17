@@ -8,6 +8,7 @@ process.loadEnvFile('./.env');
 
 const { mongoose: db } = require('./config/database');
 const { initModels } = require('./models');
+const { initRedis, getRedisClient } = require('./config/redis');
 const router = require('./routes');
 
 const PORT = process.env.PORT || '3000';
@@ -60,6 +61,13 @@ async function initApp(options = {}) {
   const models = initModels(db);
   theApp.locals.models = models;
 
+  try {
+    const redisClient = await initRedis();
+    theApp.locals.redis = redisClient;
+  } catch (err) {
+    console.warn('Redis init failed:', err.message);
+  }
+
   await Promise.all(Object.values(models).map((model) => model.init()));
 
   if (listen) {
@@ -77,6 +85,10 @@ async function stopApp() {
     await new Promise((resolve, reject) => server.close((err) => (err ? reject(err) : resolve())));
     server = undefined;
     await db.disconnect();
+    const redisClient = getRedisClient();
+    if (redisClient) {
+      await redisClient.quit();
+    }
   }
 }
 
