@@ -3,8 +3,8 @@ const { createClient } = require('redis');
 let redisClient;
 
 async function initRedis() {
-  const redisUrl = process.env.REDIS_URL || 'redis://default:default_password@localhost:6379';
-  
+  const redisUrl = process.env.REDIS_URL || 'redis://default:admin_pwd@localhost:6379';
+
   redisClient = createClient({
     url: redisUrl
   });

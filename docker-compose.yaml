@@ -1,18 +1,4 @@
-
 services:
-  mysql:
-    image: mysql:lts
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "3306:3306"
-    volumes:
-      - db_data:/var/lib/mysql
-
   redis:
     image: redis/redis-stack:7.2.0-v14
     container_name: redis
@@ -42,10 +28,7 @@ services:
       - ./data/mongo:/backupdb
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
-
 volumes:
-  db_data:
-    driver: local
   redis_data:
     driver: local
   mongo_data:

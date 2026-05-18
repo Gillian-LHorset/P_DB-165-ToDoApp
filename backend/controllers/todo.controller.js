@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const TodoController = {
   createTodo: async (req, res) => {
     const user_id = req.sub;
@@ -57,6 +59,10 @@ const TodoController = {
     const { Todo } = req.app.locals.models;
 
     try {
+      if (!mongoose.Types.ObjectId.isValid(todo_id)) {
+        return res.status(400).json({ error: 'Invalid todo ID' });
+      }
+
       const todo = await Todo.findOne({ _id: todo_id, user_id: user_id });
       if (todo) {
         todo.completed = typeof data.completed !== 'undefined' ? data.completed : todo.completed;
@@ -85,6 +91,10 @@ const TodoController = {
     const { Todo } = req.app.locals.models;
 
     try {
+      if (!mongoose.Types.ObjectId.isValid(todo_id)) {
+        return res.status(400).json({ error: 'Invalid todo ID' });
+      }
+
       const result = await Todo.findOneAndDelete({ _id: todo_id, user_id: user_id });
 
       if (result) {
@@ -110,7 +120,7 @@ const TodoController = {
     try {
       const result = await Todo.find({
         user_id: user_id,
-        $text: { $search: searchString }
+        text: { $regex: searchString, $options: 'i' }
       })
         .sort({ date: 1 })
         .select('-user_id -__v');
