@@ -20,7 +20,7 @@ cp .env.example .env
 The `.env` file must contain a `DB_URL` variable pointing to your MySQL server:
 
 ```sh
-DB_URL="mysql://app_user:app_password@localhost:3306/db_todoapp"
+DB_URL="mongodb://admin_user:admin_pwd@localhost:27017/db_todoapp?authSource=admin"
 ```
 
 The default credentials match those defined in the root `.env` used by Docker Compose.
