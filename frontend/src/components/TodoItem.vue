@@ -17,7 +17,7 @@ const props = defineProps({
     required: true
   },
   todoId: {
-    type: Number,
+    type: String,
     required: true
   },
   todoCompleted: {
@@ -74,7 +74,6 @@ const todoCompletedLocal = computed({
       <div class="flex flex-1 align-middle justify-end">
         <Toggle
           v-model="todoCompletedLocal"
-          @change="toggleTodoCompleted(todoId, todoCompletedLocal)"
           :classes="{
             container:
               'inline-block w-[70px] rounded-full outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-30',
